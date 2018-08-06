@@ -71,7 +71,18 @@ export const constantRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/attachment',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Attachment',
+        component: () => import('@/views/attachment/index'),
+        meta: { title: 'Attachment', icon: 'form' }
+      }
+    ]
+  },
   {
     path: '/nested',
     component: Layout,
