@@ -17,9 +17,19 @@ export function getAttachmentById(id) {
   })
 }
 
-export function getAttachmentByBizId(bizid) {
+export function deleteAttachmentById(ids) {
   return request({
-    url: 'Attachment/getAttachmentByBizId',
+    url: 'Attachment/deleteAttachmentById',
+    method: 'post',
+    data: {
+      ids: ids
+    }
+  })
+}
+
+export function deleteAttachmentByBizId(bizid) {
+  return request({
+    url: 'Attachment/deleteAttachmentByBizId',
     method: 'post',
     data: {
       bizId: bizid
