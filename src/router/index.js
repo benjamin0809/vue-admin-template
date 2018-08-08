@@ -79,7 +79,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'Attachment',
         component: () => import('@/views/attachment/index'),
-        meta: { title: 'Attachment', icon: 'form' }
+        meta: { title: 'Attachment', icon: 'file-list' }
       }
     ]
   },

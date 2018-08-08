@@ -5,9 +5,9 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    avatar: '',
+    avatar: 'static/img/timg1.gif',
     userid: '',
-    roles: []
+    roles: ['admin']
   },
 
   mutations: {

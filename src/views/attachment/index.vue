@@ -1,89 +1,71 @@
 <template>
-
-<div>
-
-  <el-row>
-    <el-col :span="12">
-      <div class="grid-content bg-purple">
-        <div class="search padding">
-        <el-input placeholder="请输入内容" v-model="listQuery.title" clearable class="input-with-select">
-          <el-select v-model="searchSelect" slot="prepend" placeholder="请选择" class="el-select">
-          <el-option label="餐厅名" value="1"></el-option>
-          <el-option label="订单号" value="2"></el-option>
-          <el-option label="用户电话" value="3"></el-option>
-          </el-select>
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
-        
-      </div>
-      </div>
-    </el-col>
-    <el-col :span="12"><div class="grid-content bg-purple-light">
-      <div class="buttons padding">
-        <el-button type="danger" @click="deleteFiles" :disabled="!deleteButton" icon="el-icon-delete"></el-button> 
-        <el-button type="primary"><i class="el-icon-upload el-icon--right"></i></el-button>
-      </div>
-      </div>
-    </el-col>
-  </el-row>
-
-  <div class="padding table">
-        <el-table
-    :data="paginateList" 
-    border
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
-    <el-table-column
-      prop="fileName"
-      label="名称"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="fileSize"
-      label="文件大小"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="fullPath"
-      label="路径">
-    </el-table-column>
-    <el-table-column
-      prop="uploadTime"
-      label="上传时间">
-    </el-table-column>
-     <el-table-column
-      fixed="right"
-      label="操作" >
-      <template slot-scope="scope">
-        <el-button @click="viewFile(scope.row)" type="primary" size="small">查看</el-button>
-        <el-button @click="deleteFile(scope.row)" type="danger" size="small">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-
- 
-      </div>
-      <div class="pagination-container"> 
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="listQuery.currengPage"
-              :page-size="10"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="filerList.length">
-            </el-pagination> 
+  <div>
+    <el-row>
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+          <div class="search padding">
+          <el-input placeholder="请输入内容" v-model="listQuery.title" clearable class="input-with-select">
+            <el-select v-model="searchSelect" slot="prepend" placeholder="请选择" class="el-select">
+            <el-option label="餐厅名" value="1"></el-option>
+            <el-option label="订单号" value="2"></el-option>
+            <el-option label="用户电话" value="3"></el-option>
+            </el-select>
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+          
         </div>
+        </div>
+      </el-col>
+      <el-col :span="12"><div class="grid-content bg-purple-light">
+        <div class="buttons padding">
+          <el-button type="danger" @click="deleteFiles" :disabled="!deleteButton" icon="el-icon-delete"></el-button> 
+          <!-- <el-button type="primary"><i class="el-icon-upload el-icon--right"></i></el-button> -->
+
+          <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"></editorImage>
+        </div>
+         
+        </div>
+      </el-col>
+    </el-row>
+
+    <div class="padding table">
+      <el-table :data="paginateList"  border style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column prop="fileName" label="名称" width="180"> </el-table-column>
+        <el-table-column prop="fileSize" label="文件大小" width="180"> </el-table-column>
+        <el-table-column prop="fullPath" label="路径"> </el-table-column>
+        <el-table-column prop="uploadTime" label="上传时间"> </el-table-column>
+        <el-table-column fixed="right" label="操作" >
+          <template slot-scope="scope">
+            <el-button @click="viewFile(scope.row)" type="primary" size="small">查看</el-button>
+            <el-button @click="deleteFile(scope.row)" type="danger" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
+
+    <div class="pagination-container"> 
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="listQuery.currengPage"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="filerList.length">
+      </el-pagination> 
+    </div>
+
+    <ImagePreview :imgsrc="previewimg" :dialogVisible="dialogVisible" :isIamge="isImg" @CLOSE="closePreview" />
+  </div>
 </template>
 
 <script>
 import { getAttachmentList, deleteAttachmentById } from '@/api/attachment'
-
+import editorImage from '@/components/upload/components/editorImage'
+import ImagePreview from '@/components/upload/components/ImagePreview'
+import { isImg } from '@/utils'
 export default {
+  components: { editorImage, ImagePreview },
   data() {
     return {
       list: [{ uploadTime: '2018-08-07 14:24:36', fullPath: '/doc/img.jpg', fileSize: 512, fileName: 'wenjian' },
@@ -119,7 +101,9 @@ export default {
         currengPage: 1,
         title: '',
         limit: 10
-      }
+      },
+      previewimg: '',
+      dialogVisible: false
     }
   },
   created() {
@@ -140,6 +124,9 @@ export default {
       return newlist.filter((item, index) => {
         return index < this.listQuery.limit * this.listQuery.currengPage && index >= this.listQuery.limit * (this.listQuery.currengPage - 1)
       })
+    },
+    isImg() {
+      return isImg(this.previewimg)
     }
   },
   methods: {
@@ -170,7 +157,12 @@ export default {
       // console.log(val)
     },
     viewFile(row) {
-      console.log(row)
+      this.previewimg = row.fullPath
+      this.dialogVisible = true
+    },
+    closePreview() {
+      this.dialogVisible = false
+      this.previewimg = ''
     },
     deleteFile(row) {
       console.log('delete item which name of ', row.fileName)
@@ -210,6 +202,9 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
       this.listQuery.currengPage = val
+    },
+    imageSuccessCBK() {
+      console.log('ok')
     }
   }
 }

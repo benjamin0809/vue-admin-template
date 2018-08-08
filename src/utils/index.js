@@ -56,3 +56,38 @@ export function formatTime(time, option) {
     return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
+export function debounce(func, wait, immediate) {
+  let timeout, args, context, timestamp
+
+  const later = function() {
+    // 据上一次触发时间间隔
+    const last = +new Date() - timestamp
+
+    // 上次被包装函数被调用时间间隔last小于设定时间间隔wait
+    if (last < wait && last > 0) {
+      timeout = setTimeout(later, wait - last)
+    } else {
+      timeout = null
+      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+      if (!immediate) {
+        func.apply(context, args)
+        if (!timeout) context = args = null
+      }
+    }
+  }
+}
+
+export function isImg(src) {
+  if (src) {
+    const srclowcase = src.toLowerCase()
+    const imglist = ['.jpg', '.jpeg', '.png', '.gif']
+    for (const img of imglist) {
+      if (srclowcase.indexOf(img) > -1) {
+        console.log('is image')
+        return true
+      }
+    }
+  }
+  return false
+}
+
