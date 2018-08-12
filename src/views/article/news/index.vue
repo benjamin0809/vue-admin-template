@@ -2,11 +2,16 @@
   <div class="components-container"> 
 
       <el-form :model="articleForm" :rules="rules" ref="articleForm" label-width="100px" class="demo-articleForm">
-      <el-form-item label="文章主题" prop="name">
-        <el-input v-model="articleForm.name"></el-input>
+      <el-form-item label="文章主题" prop="title">
+        <el-input v-model="articleForm.title"></el-input>
       </el-form-item>
-      <el-form-item label="分类" prop="class">
-        <el-select v-model="articleForm.class" placeholder="请选择文章分类">
+
+      <el-form-item label="创建时间" prop="creationtime">
+        <el-input v-model="articleForm.creationtime" :readonly="true"></el-input>
+      </el-form-item>
+
+      <el-form-item label="分类" prop="tag">
+        <el-select v-model="articleForm.tag" placeholder="请选择文章分类">
           <el-option label="新闻" value="news"></el-option>
           <el-option label="公告" value="notice"></el-option>
         </el-select>
@@ -24,8 +29,8 @@
           </el-form-item>
         </el-col>
       </el-form-item>-->
-      <el-form-item label="置顶" prop="isTop">
-        <el-switch v-model="articleForm.isTop"></el-switch>
+      <el-form-item label="置顶" prop="istop">
+        <el-switch v-model="articleForm.istop"></el-switch>
       </el-form-item>
       <el-form-item label="标签" prop="type">
         <el-checkbox-group v-model="articleForm.type">
@@ -36,9 +41,9 @@
         </el-checkbox-group>
       </el-form-item>
  
-      <el-form-item label="正文" prop="desc"> 
+      <el-form-item label="正文" prop="content"> 
         <div class="editor-content">
-          <tinymce :height="300" v-model="articleForm.desc"></tinymce>
+          <tinymce :height="300" v-model="articleForm.content"></tinymce>
         </div>
       </el-form-item>
       <el-form-item>
@@ -53,7 +58,8 @@
 
 <script>
 import Tinymce from '@/components/Tinymce'
-import storage from '@/utils/storage'
+import article from '@/api/article'
+import { parseTime } from '@/utils'
 export default {
   name: 'tinymce-demo',
   components: { Tinymce },
@@ -61,37 +67,56 @@ export default {
     return {
       content: '',
       articleForm: {
-        name: '',
-        class: '',
-        isTop: false,
+        title: '',
+        tag: '',
+        istop: false,
         type: [],
-        desc: ''
+        content: '',
+        creationtime: '',
+        status: 0,
+        remark: ''
       },
       rules: {
-        name: [
+        title: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 15, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 3, max: 35, message: '长度在 3 到 35 个字符', trigger: 'blur' }
         ],
-        class: [
+        tag: [
           { required: true, message: '请选择活动区域', trigger: 'change' }
         ],
         type: [
           { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
         ],
-        desc: [
+        content: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }
         ]
       }
+    }
+  },
+  created() {
+    const id = this.$route.params.articleid
+    if (id) {
+      article.getArticle(id).then(response => {
+        console.log(response)
+        response.data.type = response.data.type.split(',')
+        this.articleForm = response.data
+      })
     }
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.articleForm.creationtime = parseTime(new Date())
+          this.articleForm.articleurl = location.href
+          this.articleForm.istop = this.articleForm.istop ? 1 : 0
+          this.articleForm.type = this.articleForm.type
           console.log(this.articleForm)
-
-          storage.set('article', this.articleForm)
+          article.createArticle(this.articleForm).then(response => {
+            if (response.errcode === 0) {
+              this.$message('success')
+            }
+          })
         } else {
           console.log('error submit!!')
           return false

@@ -33,11 +33,6 @@ export const constantRouterMap = [
     children: [{
       path: 'dashboard',
       component: () => import('@/views/dashboard/index')
-    },
-    {
-      name: 'detail',
-      path: 'detail/:articleid',
-      component: () => import('@/views/article/index')
     }]
   },
   {
@@ -101,17 +96,18 @@ export const constantRouterMap = [
   {
     path: '/article',
     component: Layout,
-    name: 'Article',
+    name: 'article',
+    redirect: '/article/list',
     meta: {
-      title: 'Article',
+      title: 'article',
       icon: 'nested'
     },
     children: [
       {
-        path: 'index',
-        name: 'news',
+        path: 'create',
+        name: 'create',
         component: () => import('@/views/article/news/index'),
-        meta: { title: 'news', icon: 'tab' }
+        meta: { title: 'createArticle', icon: 'tab' }
       },
       {
         path: 'index',
@@ -121,9 +117,23 @@ export const constantRouterMap = [
       },
       {
         path: 'list',
-        name: 'list',
+        name: 'ArticleList',
         component: () => import('@/views/article/list'),
-        meta: { title: 'list', icon: 'tab' }
+        meta: { title: 'ArticleList', icon: 'tab' }
+      },
+      {
+        name: 'detail',
+        hidden: true,
+        path: 'detail/:articleid',
+        meta: { title: 'detail', icon: 'tab' },
+        component: () => import('@/views/article/index')
+      },
+      {
+        name: 'edit',
+        hidden: true,
+        path: 'edit/:articleid',
+        meta: { title: 'edit', icon: 'tab' },
+        component: () => import('@/views/article/news/index')
       }
     ]
   },
