@@ -106,34 +106,34 @@ export const constantRouterMap = [
       {
         path: 'create',
         name: 'create',
-        component: () => import('@/views/article/news/index'),
-        meta: { title: 'createArticle', icon: 'tab' }
+        component: () => import('@/views/article/create/index'),
+        meta: { title: 'createArticle', icon: 'nested' }
       },
       {
-        path: 'index',
-        name: 'notice',
-        component: () => import('@/views/article/news/index'),
-        meta: { title: 'notice', icon: 'tab' }
+        path: 'column',
+        name: 'column',
+        component: () => import('@/views/article/column/index'),
+        meta: { title: 'columnManagement', icon: 'nested' }
       },
       {
         path: 'list',
         name: 'ArticleList',
         component: () => import('@/views/article/list'),
-        meta: { title: 'ArticleList', icon: 'tab' }
+        meta: { title: 'ArticleList', icon: 'nested' }
       },
       {
         name: 'detail',
         hidden: true,
         path: 'detail/:articleid',
-        meta: { title: 'detail', icon: 'tab' },
-        component: () => import('@/views/article/index')
+        meta: { title: 'detail', icon: 'nested' },
+        component: () => import('@/views/article/detail/index')
       },
       {
         name: 'edit',
         hidden: true,
         path: 'edit/:articleid',
-        meta: { title: 'edit', icon: 'tab' },
-        component: () => import('@/views/article/news/index')
+        meta: { title: 'edit', icon: 'nested' },
+        component: () => import('@/views/article/create/index')
       }
     ]
   },

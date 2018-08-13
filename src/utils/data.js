@@ -1,7 +1,7 @@
 export function getNewslist() {
   const list = []
   const article = {}
-  article.content = `"<p><strong>央视网消息：</strong>&ldquo;早上6点02分和6点05分，C2581和C2002次动车组分别从北京南站和天津站发出。&rdquo;这个画面出现在8月8日的《新闻联播》里有着特别的意义。</p>
+  article.content = `<p><strong>央视网消息：</strong>&ldquo;早上6点02分和6点05分，C2581和C2002次动车组分别从北京南站和天津站发出。&rdquo;这个画面出现在8月8日的《新闻联播》里有着特别的意义。</p>
   <p>8月8日，京津城际铁路实施新的列车运行图，复兴号以350公里时速&ldquo;开跑&rdquo;，从北京南站至天津站之间列车运行时间压缩至30分钟，提速却保持票价不变，这进一步增强了同城效应，助推京津冀一体化发展。</p>
   <p>作为中国首条设计时速350公里的高速铁路，2008年8月1日京津城际开通运营，它标志着中国正式跨入高铁时代，如今它已&ldquo;奔跑&rdquo;了整整10年。</p>
   <p>10年间，京津城际铁路发送旅客2.5亿人次，相当于将北京、天津全部常住人口3600万人运送了3个来回。</p>
@@ -32,12 +32,14 @@ export function getNewslist() {
   <p>蒙内铁路开通时，肯尼亚总统肯雅塔说：&ldquo;122年来，肯尼亚人民有了新的铁路，我们将掀开新的一章，书写未来100年肯尼亚的历史。&rdquo;</p>
   <p>随着&ldquo;一带一路&rdquo;建设的推进，越来越多的铁路在沿线各国建设，中国铁路在美洲、非洲、亚洲、中东等地区落地生根。促进国家之间互联互通的同时，也让更多地区之间打破隔阂和冲突，更加紧密地联系在一起。</p>
   <p>目前，中国高铁已经拿下多个世界之&ldquo;最&rdquo;：成为世界上高铁里程最长、运输密度最高、成网运营场景最复杂的国家。据统计，中国高铁已累计运输旅客83亿人次，完成旅客周转量2.74万亿人公里。</p>
-  <p>中国铁路承载着希望，给世界越来越多改变和惊喜的同时，也正在改变世界，让世界变得更美好。中国需要高铁，世界更需要高铁。中国高铁走出国门后，将给越来越多的国家带去高铁红利。（文/田宏）</p>"`
+  <p>中国铁路承载着希望，给世界越来越多改变和惊喜的同时，也正在改变世界，让世界变得更美好。中国需要高铁，世界更需要高铁。中国高铁走出国门后，将给越来越多的国家带去高铁红利。（文/田宏）</p>`
   article.title = '"原标题：这张“中国名片”，习近平多次展示给外国政要"'
   article.publishtime = '2018-08-11 13:34:28'
   article.editor = 'liu mr sam'
   article.tags = ['super', 'energe']
   article.id = '669998846513'
+  article.status = 1
+  article.istop = true
   list.push(article)
   return list
 }
@@ -49,4 +51,17 @@ export function getNewsById(id) {
     }
   }
   return null
+}
+export function getArticleCol() {
+  const list = [
+    { id: '0', name: 'all', value: '' },
+    { id: '1', name: 'news', value: 'news' },
+    { id: '2', name: 'notice', value: 'notice' },
+    { id: '3', name: 'life', value: 'life' },
+    { id: '4', name: 'events', value: 'events' }]
+  return list
+}
+
+export function getArticleSubCol() {
+  return getArticleCol().filter(item => item.value)
 }
