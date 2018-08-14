@@ -100,26 +100,26 @@ export const constantRouterMap = [
     redirect: '/article/list',
     meta: {
       title: 'article',
-      icon: 'nested'
+      icon: 'article'
     },
     children: [
       {
         path: 'create',
         name: 'create',
         component: () => import('@/views/article/create/index'),
-        meta: { title: 'createArticle', icon: 'nested' }
+        meta: { title: 'createArticle', icon: 'edit' }
       },
       {
         path: 'column',
         name: 'column',
         component: () => import('@/views/article/column/index'),
-        meta: { title: 'columnManagement', icon: 'nested' }
+        meta: { title: 'columnManagement', icon: 'guide' }
       },
       {
         path: 'list',
         name: 'ArticleList',
         component: () => import('@/views/article/list'),
-        meta: { title: 'ArticleList', icon: 'nested' }
+        meta: { title: 'ArticleList', icon: 'list' }
       },
       {
         name: 'detail',

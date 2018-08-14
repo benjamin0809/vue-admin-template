@@ -22,12 +22,11 @@ export default {
      },
      isIamge: {
        type: Boolean,
-       default: false
+       default: true
      }
    },
    data() {
      return {
-       isIamge: true,
        title: '照片查看'
      }
    },

@@ -43,10 +43,25 @@ export function getNewslist() {
   list.push(article)
   return list
 }
+
+export function getNewslistByCount(length) {
+  const article = getNewslist()[0]
+  const list = []
+  for (let i = 0; i < length; i++) {
+    const newarticle = JSON.parse(JSON.stringify(article))
+    newarticle.id += i
+    newarticle.title += i
+    newarticle.type = getArticleSubCol()[Math.floor(Math.random() * 10 + 1) % 4].name
+    newarticle.status = getArticleStatus()[Math.floor(Math.random() * 10 + 1) % 3].value
+    newarticle.istop = Math.floor(Math.random() * 10 + 1) % 2 === 1
+    list.push(newarticle)
+  }
+  return list
+}
 export function getNewsById(id) {
   const list = getNewslist()
   for (const item of list) {
-    if (item.id === id) {
+    if (item.id === '669998846513') {
       return item
     }
   }
@@ -64,4 +79,12 @@ export function getArticleCol() {
 
 export function getArticleSubCol() {
   return getArticleCol().filter(item => item.value)
+}
+
+export function getArticleStatus() {
+  const list = [
+    { id: '0', name: 'publish', value: 9 },
+    { id: '1', name: 'invalid', value: -1 },
+    { id: '2', name: 'edit', value: 0 }]
+  return list
 }

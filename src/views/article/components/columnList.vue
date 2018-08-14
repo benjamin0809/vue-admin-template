@@ -1,12 +1,15 @@
 <template>
     <div class="column">
         <h1>栏目</h1>
+        
+        <el-scrollbar   height="100%" style="height:800px">
         <el-menu default-active="0"   class="el-menu-vertical-demo" >
             <el-menu-item :index="index + ''"  v-for="(item,index) in column" :key="item.id" @click="clickItem(item)">
                 <i class="el-icon-location"></i>
                 <span slot="title">{{item.name}}</span>
             </el-menu-item>
         </el-menu>
+        </el-scrollbar>
     </div>
 </template>
 
@@ -39,6 +42,10 @@ export default {
 <style scoped>
 .column{
         padding: 10px;
+        height:800px
+    }
+    .el-scrollbar__wrap {
+      overflow-x: hidden;
     }
 </style>
-
+ 

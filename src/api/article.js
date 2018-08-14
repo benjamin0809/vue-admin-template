@@ -2,12 +2,19 @@ import request from '@/utils/request'
 
 const article = {}
 article.createArticle = function(object) {
-  object.type = object.type.toString()
   return request({
     url: 'Article/createArticle',
     method: 'post',
     data: object
   })
+}
+
+article.saveArticle = function(object) {
+  if (object.id) {
+    return article.publish(object)
+  } else {
+    return article.createArticle(object)
+  }
 }
 
 article.list = function(object) {

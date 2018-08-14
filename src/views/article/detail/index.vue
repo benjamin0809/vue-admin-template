@@ -3,6 +3,9 @@
 
     <el-card class="box-card">
       <h1>{{article.title}}</h1>
+      <el-tag :key="tag" v-for="tag in article.type"   :disable-transitions="false" >
+      {{tag}}
+    </el-tag>
       <p>{{article.editor}}</p>
       <p>{{article.publishtime}}</p>
       <div v-html="article.content"></div>
@@ -25,6 +28,7 @@ export default {
 
     article.getArticle(id).then(response => {
       if (response.errcode === 0) {
+        response.data.type = response.data.type.split(',')
         this.article = response.data
       }
     })
