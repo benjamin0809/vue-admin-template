@@ -29,7 +29,8 @@
     </el-row>
 
     <div class="padding table">
-      <el-table :data="paginateList"  border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-scrollbar class="scrollbar-wrapper">
+      <el-table :data="paginateList"  border style="width: 100%;height:700px" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="fileName" label="名称" width="180"> </el-table-column>
         <el-table-column prop="fileSize" label="文件大小" width="180"> </el-table-column>
@@ -42,14 +43,11 @@
           </template>
         </el-table-column>
       </el-table>
+      </el-scrollbar>
     </div>
 
     <div class="pagination-container"> 
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="listQuery.currengPage"
-        :page-size="10"
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.currengPage" :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
         :total="filerList.length">
       </el-pagination> 
@@ -231,11 +229,21 @@ export default {
       bottom: 10px;
     }
     .pagination-container{
-      margin-top: 30px;
-      padding: 10px
+      position: fixed;
+      bottom: 0;
+      padding: 10px;
+      width:100%;
+      text-align:center;
     }
     .table{
-      min-height:700px
+      min-height:700px;
+      margin-bottom :30px;
+    }
+
+    .scrollbar-wrapper {
+      height: calc(100vh - 200px);
+      overflow-x: hidden!important;
+       
     }
 </style>
 

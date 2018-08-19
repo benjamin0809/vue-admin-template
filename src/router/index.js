@@ -82,6 +82,18 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/administration',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'administration',
+        component: () => import('@/views/administration/index'),
+        meta: { title: 'administration', icon: 'people' }
+      }
+    ]
+  },
+  {
     path: '/tabs',
     component: Layout,
     children: [

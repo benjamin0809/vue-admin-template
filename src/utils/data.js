@@ -1,3 +1,10 @@
+const demouser = {
+  userid: 123,
+  username: 'benjamin',
+  address: 'lon',
+  category: 'category',
+  desc: 'good'
+}
 export function getNewslist() {
   const list = []
   const article = {}
@@ -88,3 +95,16 @@ export function getArticleStatus() {
     { id: '2', name: 'edit', value: 0 }]
   return list
 }
+
+export function getUser(length) {
+  const list = []
+  for (let i = 0; i < length; i++) {
+    const newdemouser = JSON.parse(JSON.stringify(demouser))
+    newdemouser.userid += i
+    newdemouser.username += i
+    newdemouser.address += i
+    list.push(newdemouser)
+  }
+  return list
+}
+

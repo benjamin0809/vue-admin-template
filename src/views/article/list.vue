@@ -29,10 +29,10 @@
           </el-row>
 
         <div class="wrapper" ref="wrapper">
-          <el-scrollbar overflow-x="hidden" height="100%" style="height:800px">
-          <el-table :data="list" stripe style="width: 100%;min-height: 800px;padding-right:20px"> 
+          <!-- <el-scrollbar  height="100%" style="height:800px;"> -->
+          <el-table :data="list" stripe style="width: 100%;padding-right:20px"> 
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="title" label="标题" width="380"  >
+          <el-table-column prop="title" label="标题" width="380" white-space="no-wrap" >
           <template slot-scope="scope">
             <router-link class="link-type" :to="'/article/detail/' + scope.row.id">
             <span>{{ scope.row.title }}</span>
@@ -61,7 +61,7 @@
             </template>
           </el-table-column> 
         </el-table>
-        </el-scrollbar>
+        <!-- </el-scrollbar> -->
         </div>
        
       </el-col>
@@ -156,8 +156,9 @@ export default {
     }
     .column{
 
-    }.wrapper{ 
-      height:800px
+    }.wrapper{  
+      padding-right:50px;
+      overflow:hidden
     }
     .el-scrollbar__wrap {
       overflow-x: hidden;
